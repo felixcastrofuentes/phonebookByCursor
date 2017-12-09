@@ -1,14 +1,30 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>
-      Ionic Blank
+      Personas
     </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="secondary">
+        <ion-icon name="options"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
+  <ion-toolbar no-border-top color="primary">
+    <ion-searchbar (ionInput)="filterItems($event)" placeholder="Buscar Personas">
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list inset>
+    <ion-item *ngFor="let persona of personasFilter">
+      <h2>{{persona.id}} - {{persona.nombre}} {{persona.apellido}}</h2>
+      <h3>{{persona.rut}} - {{persona.telefono}}</h3>
+      <p>{{persona.direccion.calle}} {{persona.direccion.numero}}, {{persona.direccion.comuna.nombre}}</p>
+    </ion-item>
+  </ion-list>
 </ion-content>
