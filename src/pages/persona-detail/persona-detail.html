@@ -25,4 +25,5 @@
     <p>Dirección: {{persona.direccion.calle}} {{persona.direccion.numero}}, {{persona.direccion.comuna.nombre}}</p>
 
   </ion-card-content>
+  <a *ngIf="validMsisdn == true" ion-button href="tel:+{{persona.telefono}}" color="secondary" full >Llamar</a>
 </ion-content>
