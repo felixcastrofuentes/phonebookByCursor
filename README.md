@@ -13,3 +13,9 @@ Posee 3 pantallas
 - Home: muesta listado de personas, se puede buscar por nombre y/o apellidos. El listado posee el componente ion-refresher para el pulldown.
 - Filtro región/comunas (modal)
 - Detalle de persona: muestra los datos de la persona. Muestra un toast de alerta cuando el rut o teléfono es inválido(además los cambia a color rojo...). Si el teléfono es válido muestra un botón "LLAMAR" el cual lleva al teclado de llamada.
+
+## Instalación
+- Clonar repositorio
+- npm install
+- ionic cordova prepare
+- ionic cordova run android
