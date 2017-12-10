@@ -6,13 +6,23 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>persona-detail</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Detalle Persona</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-card-header>
+    <h3>[{{persona.id}}] {{persona.nombre}} {{persona.apellido}}</h3>
+  </ion-card-header>
 
+  <ion-card-content>
+    <!-- Add card content here! -->
+    <p [style.color]="validRut ? '#000000' : '#FF0000'" >Rut: {{persona.rut}}</p>
+    <p [style.color]="validMsisdn ? '#000000' : '#FF0000'">Teléfono: {{persona.telefono}}</p>
+    <p>Dirección: {{persona.direccion.calle}} {{persona.direccion.numero}}, {{persona.direccion.comuna.nombre}}</p>
+
+  </ion-card-content>
 </ion-content>
