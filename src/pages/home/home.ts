@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController , ToastController} from 'ionic-angular';
 
 import { WspersonaProvider } from '../../providers/wspersona/wspersona';
 import { Persona } from '../../models/persona';
+
+import { PersonaDetailPage } from '../persona-detail/persona-detail';
+import { RegionFilterPage } from '../region-filter/region-filter';
 
 @Component({
   selector: 'page-home',
@@ -10,17 +13,20 @@ import { Persona } from '../../models/persona';
 })
 export class HomePage {
 
-  personas: Persona[];
+  personas: Persona[]= [];
   personasFilter: Persona[] = [];
   refresher = null;
   searchQuery: string = '';
 
-  constructor(public navCtrl: NavController, private wspersonaProvider: WspersonaProvider, public modalCtrl: ModalController) {
+  regionSelected:number = null;
+  comunasSelected:number[] = null;
+
+  constructor(public navCtrl: NavController, private wspersonaProvider: WspersonaProvider, public modalCtrl: ModalController, public toastCtrl: ToastController) {
 
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PersonaDetallePage');
+    //console.log('ionViewDidLoad PersonaDetallePage');
     this.getPersonas();
   }
 
@@ -28,20 +34,17 @@ export class HomePage {
    * Obtiene personas desde ws
    */
   getPersonas() {
-    console.log("obteniendo personas...");
     this.wspersonaProvider.getPersonas()
       .subscribe(personas => { this.personas = personas },
       err => {
-        console.error("Error" + err.message);
+        this.presentToast("Ups! No hemos podido listar el phonebook. Intenta más tarde por favor.");
         if (this.refresher)
           this.refresher.complete();
       }
       , () => {
-        console.log('COMPLETEEEE');
         this.initializeItems();
         if (this.refresher)
           this.refresher.complete();
-
       }
       );
   }
@@ -51,7 +54,6 @@ export class HomePage {
    * Refresh ionic
    */
   doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
     this.refresher = refresher;
     this.getPersonas();
   }
@@ -61,8 +63,12 @@ export class HomePage {
    */
   initializeItems() {
     this.personasFilter = [];
-
     for (let entry of this.personas) {
+      if(this.regionSelected && this.comunasSelected && entry.activo == true){
+          if(this.comunasSelected.indexOf(entry.direccion.comuna.id) > -1)
+            this.personasFilter.push(entry);
+      }
+      else
       if(entry.activo == true){
         this.personasFilter.push(entry);
       }
@@ -87,4 +93,41 @@ export class HomePage {
             });
         }
     }
+
+
+  /**
+   * Abre página persona-detail
+   */
+  personaDetailAction(persona: Persona) {
+    this.navCtrl.push(PersonaDetailPage, { "persona": persona });
+  }
+
+  /**
+   * Abre página region-filter del tipo Modal (filtro region + comunas)
+   */
+  regionFilterAction() {
+    let data = { 'sRegion': this.regionSelected, 'sComuna': this.comunasSelected };
+
+     let modal = this.modalCtrl.create(RegionFilterPage, data );
+        modal.present();
+        modal.onDidDismiss((data) => {
+            if (data) {
+              this.regionSelected = data.sRegion;
+              this.comunasSelected = data.sComuna;
+              this.initializeItems();
+            }
+        });
+  }
+
+  /**
+   * Muestra mensaje tipo Toast
+   */
+  presentToast(msg:string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'bottom'
+    });
+    toast.present();
+  }
 }

@@ -4,7 +4,7 @@
       Personas
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only color="secondary">
+      <button ion-button icon-only color="secondary" (click)="regionFilterAction()">
         <ion-icon name="options"></ion-icon>
       </button>
     </ion-buttons>
@@ -21,7 +21,7 @@
   </ion-refresher>
 
   <ion-list inset>
-    <ion-item *ngFor="let persona of personasFilter">
+    <ion-item *ngFor="let persona of personasFilter" (click)="personaDetailAction(persona)">
       <h2>{{persona.id}} - {{persona.nombre}} {{persona.apellido}}</h2>
       <h3>{{persona.rut}} - {{persona.telefono}}</h3>
       <p>{{persona.direccion.calle}} {{persona.direccion.numero}}, {{persona.direccion.comuna.nombre}}</p>

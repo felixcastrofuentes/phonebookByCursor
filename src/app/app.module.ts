@@ -10,11 +10,16 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { WspersonaProvider } from '../providers/wspersona/wspersona';
 import { WsregionProvider } from '../providers/wsregion/wsregion';
+import { PersonaDetailPage } from '../pages/persona-detail/persona-detail';
+import { RegionFilterPage } from '../pages/region-filter/region-filter';
+
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    PersonaDetailPage,
+    RegionFilterPage
   ],
   imports: [
     BrowserModule,
@@ -24,7 +29,9 @@ import { WsregionProvider } from '../providers/wsregion/wsregion';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    PersonaDetailPage,
+    RegionFilterPage
   ],
   providers: [
     StatusBar,
