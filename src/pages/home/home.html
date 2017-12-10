@@ -22,6 +22,9 @@
 
   <ion-list inset>
     <ion-item *ngFor="let persona of personasFilter" (click)="personaDetailAction(persona)">
+      <ion-avatar item-start>
+        <img src="assets/imgs/contact.png">
+      </ion-avatar>
       <h2>{{persona.id}} - {{persona.nombre}} {{persona.apellido}}</h2>
       <h3>{{persona.rut}} - {{persona.telefono}}</h3>
       <p>{{persona.direccion.calle}} {{persona.direccion.numero}}, {{persona.direccion.comuna.nombre}}</p>
