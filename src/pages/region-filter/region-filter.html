@@ -6,13 +6,45 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>region-filter</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Filtros Región / Comuna</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
+
 <ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label>Región</ion-label>
+      <ion-select [(ngModel)]="sRegion" (ionChange)="setComunas()" cancelText="Cancelar" okText="OK">
+        <ion-option *ngFor="let region of regiones" value="{{region.id}}">{{region.nombre}}</ion-option>
+
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="regionSelected">
+    <ion-item>
+      <ion-label>Comunas</ion-label>
+      <ion-select [(ngModel)]="sComuna" multiple="true" cancelText="Cancelar" okText="OK">
+        <ion-option *ngFor="let comuna of regionSelected.comunas" value="{{comuna.id}}">{{comuna.nombre}}</ion-option>
+
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
 
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col>
+        <button ion-button color="secondary" (click)="closeModal()" full>Filtrar</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="dark"  (click)="clearAction()" full>Limpiar </button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
